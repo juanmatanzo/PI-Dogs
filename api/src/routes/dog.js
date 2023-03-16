@@ -69,7 +69,7 @@ router.get('/:idRaza', async(req, res) => {
         if(!idRaza){
             res.status(404).send("Couldn't find the dog's name")
         } else {
-            const dog = dogs.find(d => d.id.toString() === idRaza)
+            const dog = await dogs.find(d => d.id.toString() === idRaza)
             res.status(200).json(dog)
         }
     } catch(e){
@@ -80,13 +80,13 @@ router.get('/:idRaza', async(req, res) => {
 router.post('/', async(req, res) => {
     const {name, height, weight, life_span, image, temperaments} = req.body
     let dogCreated = await Dog.create({name, height, weight, life_span, image})
-    let temperament = await Temperament.findAll({
+    let asociatedTemp = await Temperament.findAll({
         where: {
             name: temperaments
         }
     });
-    dogCreated.addTemperament(temperament)
-    res.send("Send Successfully")
+    dogCreated.addTemperament(asociatedTemp)
+    res.json(dogCreated)
 })
     
     
