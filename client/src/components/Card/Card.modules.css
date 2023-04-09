@@ -1,0 +1,23 @@
+.card_image{
+    border-radius: 10px;
+    width: 230px;
+    height:190px;
+    background-color: transparent;
+    opacity: 0.9;
+    margin: auto;
+}  
+
+.card_image:hover{
+    opacity: 1;
+}
+
+.card_container{
+    border: black 2px solid;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.card_detail {
+    text-align: center;
+}

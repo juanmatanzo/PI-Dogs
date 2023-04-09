@@ -13,10 +13,13 @@ const getApiInfo = async() => {
             id: e.id,
             name: e.name,
             image: e.image.url,
-            height: e.height.metric.concat(' cm'),
-            weight: e.weight.metric.concat(' kg'),
+            weight_min: parseInt(e.weight.metric.slice(0, 2).trim()),
+            weight_max: parseInt(e.weight.metric.slice(4).trim()),
+            height_min: parseInt(e.height.metric.slice(0, 2).trim()),
+            height_max: parseInt(e.height.metric.slice(4).trim()),
             life_span: e.life_span,
-            temperament: e.temperament
+            temperament: e.temperament,
+            created: "API"
         }
     })
     return apiInfo
@@ -57,9 +60,10 @@ router.get('/', async (req,res) => {
             res.status(200).send(dogs)
         }
     } catch(e) {
-        res.status(404).json("There is no dog with this name")
+        res.status(404).json("There is no dogs with this name")
     }
 })
+
 
 
 router.get('/:idRaza', async(req, res) => {
@@ -78,12 +82,29 @@ router.get('/:idRaza', async(req, res) => {
 })
 
 router.post('/', async(req, res) => {
-    const {name, height, weight, life_span, image, temperaments} = req.body
-    let dogCreated = await Dog.create({name, height, weight, life_span, image})
+    const {
+        name, 
+        image, 
+        height_min, 
+        height_max, 
+        weight_min, 
+        weight_max, 
+        life_span, 
+        created_in_db,
+        temperament
+    } = req.body
+    let dogCreated = await Dog.create({
+        name, 
+        image, 
+        height_min, 
+        height_max, 
+        weight_min, 
+        weight_max, 
+        life_span, 
+        created_in_db,
+    })
     let asociatedTemp = await Temperament.findAll({
-        where: {
-            name: temperaments
-        }
+        where: {name: temperament}
     });
     dogCreated.addTemperament(asociatedTemp)
     res.json(dogCreated)
