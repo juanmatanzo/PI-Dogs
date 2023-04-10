@@ -1,4 +1,6 @@
 body {
+  background: url(./img/fondo_landing.jpg) no-repeat 50% 50%;
+  background-size: cover;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',

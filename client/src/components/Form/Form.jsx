@@ -13,13 +13,44 @@ export default function Form () {
     })
 
     function validate(data){
-        const error = {};
-        if(!data.name) error.name = 'Name required';
-        if(!data.height_min) error.height_min = 'Min height required';
-        if(!data.height_max) error.height_max = 'Max height required';
-        if(!data.weight_min) error.weight_min = 'Min weight required';
-        if(!data.weight_max) error.weight_max = 'Max weight required';
-        if(!data.life_span) error.life_span = 'Life span required';
+        let error = {};
+        if(!input.name.trim()) { //input es mi estado local
+            error.name = 'Write a name, please'; 
+        }else if(parseInt(input.name)){
+            error.name = 'Name is invalid, please use at least one letter at the beginning'
+        }
+    
+        if(!input.image) {
+            error.image = 'Upload an image, please';  
+    
+        }
+        if(!input.temperaments) {
+            error.temperaments = 'Select one or more temperaments, please';
+    
+        }
+        if(input.height_min < 0 || input.height_min > 100){
+            error.height_min = 'Require field, please write a valid number between 1 and 100'
+        }
+        if(input.height_max < 1 || input.height_max > 100){
+            error.height_max = 'Require field, please write a valid number between 1 and 100'
+        }
+        if(input.height_max < input.height_min){
+            error.height_max = 'The minimum value cannot be greater than the maximum value'
+        }
+    
+        if(input.weight_min < 0 || input.weight_min > 100){
+            error.weight_min = 'Require field, please write a valid number between 1 and 100'
+        }
+        if(input.weight_max < 1 || input.weight_max > 100){
+            error.weight_max = 'Require field, please write a valid number between 1 and 100'    
+        }
+        if(input.weight_max < input.weight_min){
+            error.weight_max = 'The minimum value cannot be greater than the maximum value'
+        }
+    
+        if(input.life_span < 0 || input.life_span > 19){
+            error.life_span = 'Require field, please write a valid number between 1 and 19'
+        }
 
         return error;
     }
@@ -50,64 +81,64 @@ export default function Form () {
         dispatch(getTemperaments());
     }, [dispatch])
 
-    // function handleChange(e){
-    //     setInput({
-    //         ...input,
-    //         [e.target.name]: e.target.value
-    //     })
-    //     console.log(input)
-    //     setError(validate({
-    //         ...input,
-    //         [e.target.name]: e.target.value
-    //     }))
-    // }
-
-    function handleChange(e) {
-        if(e === document.form[6]){
-            console.log("handle :", e);
-            setInput(prevData => {
-                let txT = e.value.split(",");
-                const state = {
-                    ...prevData,
-                    [e.name]: txT
-                };
-                const validations = validate(state);
-                setError(validations);
-                return state;
-            })
-        } else if (e.target.name === 'temperaments') {
-            setInput(prevData => {
-                let txT = e.target.value.split(',');
-                const state = {
-                    ...prevData,
-                    [e.target.name]: txT,
-                }
-                const validations = validate(state)
-                setError(validations)
-                return state;
-            })
-        } else {
-            if (e.target.name === 'image') {
-                console.log(e.target.value);
-                document.img1.src = e.target.value;
-            }
-            setInput(prevData => {
-                let txT = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);
-                const state = {
-                    ...prevData,
-                    [e.target.name]: txT,
-                };
-                const validations = validate(state);
-                setError(validations)
-                return state
-            })
-        }
-    }
-
-    function handleTemperamentsSelect(id){
+    function handleChange(e){
         setInput({
             ...input,
-            temperaments: [...input.temperaments, id.target.value]
+            [e.target.name]: e.target.value
+        })
+        setError(validate({
+            ...input,
+            [e.target.name]: e.target.value
+        }))
+        console.log(input)
+    }
+
+    // function handleChange(e) {
+    //     if(e === document.form[6]){
+    //         console.log("handle :", e);
+    //         setInput(prevData => {
+    //             let txT = e.value.split(",");
+    //             const state = {
+    //                 ...prevData,
+    //                 [e.name]: txT
+    //             };
+    //             const validations = validate(state);
+    //             setError(validations);
+    //             return state;
+    //         })
+    //     } else if (e.target.name === 'temperaments') {
+    //         setInput(prevData => {
+    //             let txT = e.target.value.split(',');
+    //             const state = {
+    //                 ...prevData,
+    //                 [e.target.name]: txT,
+    //             }
+    //             const validations = validate(state)
+    //             setError(validations)
+    //             return state;
+    //         })
+    //     } else {
+    //         if (e.target.name === 'image') {
+    //             console.log(e.target.value);
+    //             document.img1.src = e.target.value;
+    //         }
+    //         setInput(prevData => {
+    //             let txT = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);
+    //             const state = {
+    //                 ...prevData,
+    //                 [e.target.name]: txT,
+    //             };
+    //             const validations = validate(state);
+    //             setError(validations)
+    //             return state
+    //         })
+    //     }
+    // }
+
+    function handleTemperamentsSelect(e){
+        setInput({
+            ...input,
+            temperaments: [...input.temperaments, e.target.value]
         })
     };
 
@@ -115,25 +146,38 @@ export default function Form () {
         e.preventDefault()
         setInput({
             ...input,
-            temperaments: input.countries.filter(c => c!== e)
+            temperaments: input.temperaments.filter(c => c!== e)
         })
     }
 
     function handleSubmit(e){
         e.preventDefault();
-        console.log(input)
-        dispatch(postDog(input))
-        setInput({
-            name: "",
-            height_min: "",
-            height_max: "",
-            weight_min: "",
-            weight_max: "",
-            life_span: "",
-            image: "",
-            temepraments: []
-        });
-        alert("Dogs created successfully!")
+        setError(
+            validate({
+                ...input,
+                [e.target.name]: e.target.value
+            })
+        );
+        if(!Object.keys(error).length && input.name && input.image && input.height_min && input.height_max && input.weight_min && input.weight_max && input.life_span && input.temperaments){
+            input.height_max += ' cm';
+            input.weight_max += ' kg';
+            input.life_span += ' years';
+            dispatch(postDog(input))
+            alert("Dogs created successfully!")
+            setInput({
+                name: "",
+                image: "",
+                height_min: "",
+                height_max: "",
+                weight_min: "",
+                weight_max: "",
+                life_span: "",
+                temepraments: []
+            });
+        } else {
+            alert("Error: Dog not created")
+            return;
+        }
         history.push("/home")
     }
 
@@ -204,19 +248,19 @@ export default function Form () {
                         </select>
                     </div>
                     <div>
-                        <ol>
-                            {input.temperaments.map(el => (
-                                <div>
-                                    <li>{el}</li>
-                                    <button onClick={e => handleDeleteTemperaments(e)}>X</button>
-                                </div>
-                            ))}
-                        </ol>
-                    </div>
-                    <div>
                         <button type="submit">Create Dog</button>
                     </div>
                 </form>
+                {input.temperaments.map(el => (
+                    <div>
+                        <ul>
+                            <li>
+                                <p>{el}</p>
+                                <button onClick={e => handleDeleteTemperaments(e)}>X</button>
+                            </li>
+                        </ul>
+                    </div>
+                ))}
             </div>
         </div>
     )

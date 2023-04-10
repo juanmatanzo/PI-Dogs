@@ -2,6 +2,7 @@ const Router = require('express')
 const axios = require('axios');
 const {Dog, Temperament} = require('../db')
 const {YOUR_API_KEY} = process.env;
+const {v4: newUuid} = require('uuid')
 
 
 const router = Router()
@@ -90,10 +91,11 @@ router.post('/', async(req, res) => {
         weight_min, 
         weight_max, 
         life_span, 
-        created_in_db,
+        createdInDb,
         temperament
     } = req.body
     let dogCreated = await Dog.create({
+        id: newUuid(),
         name, 
         image, 
         height_min, 
@@ -101,13 +103,13 @@ router.post('/', async(req, res) => {
         weight_min, 
         weight_max, 
         life_span, 
-        created_in_db,
+        createdInDb,
     })
-    let asociatedTemp = await Temperament.findAll({
+    let temperamentDb = await Temperament.findAll({
         where: {name: temperament}
     });
-    dogCreated.addTemperament(asociatedTemp)
-    res.json(dogCreated)
+    dogCreated.addTemperament(temperamentDb)
+    res.send("Dog created succesfully")
 })
     
     

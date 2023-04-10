@@ -5,7 +5,7 @@ import Card from "../Card/Card";
 import SearchBar from "../SearchBar/SeachBar";
 import Paged from '../Paged/Paged'
 import { getDogs, getTemperaments, alphabeticOrder, weightOrder, filterByTemperament, filterCreatedBy } from "../../actions";
-
+import './Home.modules.css';
 
 
 export default function Home(){
@@ -67,12 +67,12 @@ export default function Home(){
 
 
     return (
-        <div>
+        <div className="fondo">
             <div>
-                <Link to='dog'>
-                    <button>Create Dog</button>
+                <Link  to='dog'>
+                    <button className="create_button">Create Dog</button>
                 </Link>
-                <button onClick={e => {handleClick(e)}}>Reload Dogs</button>
+                <button className="reload_dogs" onClick={e => {handleClick(e)}}>Reload Dogs</button>
             </div>
             <div>
                 <select onChange={e => handleAlphabeticOrder(e)}>
