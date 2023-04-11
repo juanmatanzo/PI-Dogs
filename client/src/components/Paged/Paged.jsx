@@ -1,18 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './Paged.modules.css'
 
+export default function Pagination({dogsPerPage, allDogs, paged, setCurrentPage, currentPage}) {
+    const pageNumbers = []
+    const [input, setInput] = useState(1);
 
-export default function Pagination({dogsPerPage, allDogs, paged}) {
-    const pageNumbers = [] //declaro arreglo vacio
+    const nextPage = () => {
+        setInput(parseInt(input) + 1);
+        setCurrentPage(parseInt(currentPage) + 1);
+    }
 
-    for (let i = 1; i <=Math.ceil(allDogs/dogsPerPage); i++) { //todos los perros dividido perros por pagina
-        pageNumbers.push(i)  //pusheo en el arreglo
+    const previousPage = () => {
+        setInput(parseInt(input) -1);
+        setCurrentPage(parseInt(currentPage) -1)
+    }
+
+    for (let i = 1; i <=Math.ceil(allDogs/dogsPerPage); i++) {
+        pageNumbers.push(i)
     }
     return (
         <nav>
-            <div> 
-                { pageNumbers && pageNumbers.map((number, i) => (
-                     <button key={i} onClick={() => paged(number)}>{number}</button>
-                ))}
+            <div className='container_paged'> 
+                <button className='prev_paged' disabled={currentPage <= 1} onClick={previousPage}>{'<'}</button>
+                <ul className='paged'>
+                    { pageNumbers && pageNumbers.map((number, i) => (
+                    <li  key={i} onClick={() => paged(number)}>
+                        <a href='#'>{number}</a>
+                    </li>
+                    ))}
+                </ul >
+                <button className='next_paged' disabled={currentPage >= Math.ceil(allDogs/dogsPerPage)} onClick={nextPage}>{'>'}</button>
             </div>
 
         </nav>

@@ -2,6 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDogDetails } from "../../actions/index";
+import './DogDetail.modules.css'
 
 export default function DogDetail(props) {
   const dispatch = useDispatch();
@@ -15,34 +16,37 @@ export default function DogDetail(props) {
   return (
     <Fragment>
       {myDog ? (
-        <div key={myDog.id}>
-          <div>
+        <div key={myDog.id} className="details_container">
+          <div className="details_border">
             <h2>{myDog.name}</h2>
-            <img src={myDog.image} alt={myDog.name}/>
-            <div>
-              <div>
-                <div>
+            <div className="details_grip">
+              <img className="details_image" src={myDog.image} alt={myDog.name}/>
+              <div className="details_life-span">
+                <div className="details_info">
                   <h3>Life span: </h3>
                   <p>{myDog.life_span}</p>
                 </div>
               </div>
-              <div>
-                <div>
+              <div className="details_weight">
+                <div className="details_info">
                   <h3>Weight: </h3>
-                  <p>Min: {myDog.weight_min}</p>
-                  <p>Max: {myDog.weight_max}</p>
+                  <div className="details_display-flex">
+                    <p>Min: {myDog.weight_min} kg</p>
+                    <p>Max: {myDog.weight_max} kg</p>
+                  </div>
                 </div>
               </div>
-              <div>
-                <div>
+              <div className="details_height">
+                <div className="details_info">
                   <h3>Height: </h3>
-                  <p>Min: {myDog.height_min}</p>
-                  <p>Max: {myDog.height_max}</p>
+                  <div className="details_display-flex">
+                    <p>Min: {myDog.height_min} cm</p>
+                    <p>Max: {myDog.height_max} cm</p>
+                  </div>
                 </div>
               </div>
-              <br />
-              <div>
-                <div>
+              <div className="details_temperament">
+                <div className="details_info">
                   {
                     <div>
                       <h3>Temperament: </h3>
@@ -57,7 +61,7 @@ export default function DogDetail(props) {
               </div>
             </div>
             <Link to="/home">
-              <button>Back</button>
+              <button className="details_button">Home</button>
             </Link>
           </div>
         </div>

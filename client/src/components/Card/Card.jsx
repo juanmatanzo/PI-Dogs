@@ -10,9 +10,10 @@ export default function Card({id,image, name, weight, temperaments}){
                 <img className="card_image" src={image} alt="img not found" />
             </Link>
             <div className="card_detail">
-                <h3>{name}</h3>
-                <h5>Weight: {weight} kg</h5>
-                <h5>Temperaments: {temperaments}</h5>
+                <h3 className="card_name">{name}</h3>
+                <h5 className="card_weight">Weight: {weight} kg</h5>
+                <h4>Temperaments </h4>
+                <h5>{temperaments}</h5>
             </div>
         </div>
     )

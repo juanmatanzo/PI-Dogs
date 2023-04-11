@@ -11,8 +11,7 @@ export default function SearchBar(){
     function handleInputChange(e){ //el value del input va a tomar el value del useState
     e.preventDefault()
     setName(e.target.value)
-    console.log(name) //ese name va a llegarle a la acción de abajo
-
+    console.log(name)
     }
 
     function handleSubmit(e){
@@ -20,25 +19,16 @@ export default function SearchBar(){
     if(!name.length){
         alert('Please enter a breed');
     } else {
-        dispatch(getDogByName(name));//name es lo q está escribiendo el usuario
-        setName(''); //es para q se borre lo q escriba en la searchbar
-
+        dispatch(getDogByName(name));
+        setName(''); 
     }
     };   
 
 
     return (
-        <form onSubmit={(e) => handleSubmit(e)}>
-        <div>
-            <input
-            className='search_input'
-            type='text'
-            value={name}
-            placeholder='Write a breed...'
-            onChange = {(e) => handleInputChange(e)}
-            />
+        <form className='search_form' onSubmit={(e) => handleSubmit(e)}>
+            <input className='search_input' type='text' value={name} placeholder='Write a breed...' onChange = {(e) => handleInputChange(e)}/>
             <button className='search_button' type='submit'>Search</button>
-        </div>
         </form>
     )
 }

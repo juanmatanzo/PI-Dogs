@@ -1,25 +1,37 @@
+html, body {
+    width: 100%;
+    height: 100%;
+}
 .fondo {
-    background-image: url('../../img/fondo_home.jpg');
-    background-repeat: no-repeat;
+    background: url('../../img/fondo_home3.jpg') no-repeat;
+    background-size: cover;
+    padding-top: 0;
+    padding-bottom: auto;
+    margin-bottom: 100%;
+}
+
+.home_buttons{
+    display: flex;
+    text-align: center;
+    align-items: center;
+    align-content: center;
+    justify-content: space-evenly;
 }
 
 .card_grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, 270px);
-    gap: 40px;
+    gap: 50px;
     padding: 40px;
+    padding-bottom: 10px;
     justify-content: center;
-    transition: margin-left 0.3s 0.1s;
-    color: white;
 }
 
 .create_button{
-    background-color: black;
-    color: white;
+    background-color: gray;
+    color: black;
     font-weight: bold;
     outline: none;
-    margin-left: 5rem;
-    opacity: 0.9;
     font-size: 16px;
 }
 
@@ -29,16 +41,48 @@
 }
 
 .reload_dogs{
-    background-color: black;
-    color: white;
+    background-color: gray;
+    color: black;
     font-weight: bold;
     outline: none;
     margin-left: 5rem;
-    opacity: 0.9;
     font-size: 16px;
+}
+
+.reload_dogs, .create_button {
+    border-radius: 5px;
+    margin-top: 15px;
 }
 
 .reload_dogs:hover {
     opacity: 1;
     cursor: pointer;
+}
+
+.home_all_select{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.home_select{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    min-width: 150px;
+    height: 30px;
+    margin-top: 10px;
+}
+
+.home_select_box{
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 0 30px 0 15px;
+    width: 100%;
+    color: black;
+    background-color: gainsboro;
+    font-size: 15px;
+}
+
+.home_select_box option:hover{
+    background-color: gray;
 }

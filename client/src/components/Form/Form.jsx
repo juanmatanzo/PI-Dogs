@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { postDog, getTemperaments } from "../../actions";
 import { useHistory, Link } from "react-router-dom";
+import './Form.modules.css';
 
 export default function Form () {
     const dispatch = useDispatch()
@@ -182,85 +183,93 @@ export default function Form () {
     }
 
     return (
-        <div>
+        <div className="mainContainerCreation">
             <Link to='/home'>
-                <button>Home</button>
+                <button className="buttonHome">Home</button>
             </Link>
             <div>
                 <h1>Lets create a new dog breed!</h1>
             </div>
             <img src="" alt=""/>
-            <div>
+            <div className="formContainer">
                 <form name="form" id="form_id" onSubmit={handleSubmit}>
-                    <div>
+                    <div className="Section">
                         <label>Dog Name: </label>
                         <input placeholder="Dog Name" type="text" value={input.name} name="name" onChange={e => handleChange(e)}/>
                         {error.name && (
-                            <p>{error.name}</p>
+                            <p className="error">{error.name}</p>
                         )}
                     </div>
-                    <div>
+                    <div className="Section">
                         <label>Image: </label>
                         <input placeholder="Image" type="src" value={input.image} name="image" alt="not found" onChange={e => handleChange(e)}/>
                         {error.image && (
-                            <p>{error.image}</p>
+                            <p className="error">{error.image}</p>
                         )}
                     </div>
-                    <div>
-                        <label>Height: </label>
-                        <input placeholder="Height Min" type="text" value={input.height_min} name="height_min" onChange={e => handleChange(e)}/>
-                        {error.height_min && (
-                            <p>{error.height_min}</p>
-                        )}-
-                        <input placeholder="Height Max" type="text" value={input.height_max} name="height_max" onChange={e => handleChange(e)}/>
-                        {error.height_max && (
-                            <p>{error.height_max}</p>
-                        )}
-                    </div>
-                    <div>
-                        <label>Weight: </label>
-                        <input placeholder="Weight Min" type="text" value={input.weight_min} name="weight_min" onChange={e => handleChange(e)}/>
-                        {error.weight_min && (
-                            <p>{error.weight_min}</p>
-                        )}-
-                        <input placeholder="Weight Max" type="text" value={input.weight_max} name="weight_max" onChange={e => handleChange(e)}/>
-                        {error.weight_max && (
-                            <p>{error.weight_max}</p>
-                        )}
-                    </div>
-                    <div>
-                        <label>Life Span: </label>
-                        <input placeholder="Life Span" type="text" value={input.life_span} name="life_span" onChange={e => handleChange(e)}/>
-                        {error.life_span && (
-                            <p>{error.life_span}</p>
-                        )}
-                    </div>
-                    <div>
-                        <label>Temperaments: </label>
-                        <select onChange={e => handleTemperamentsSelect(e)}>
-                            {error.temperaments && (
-                                <p>{error.temperaments}</p>
+                    <div className="Section">
+                        <div className="form_display-flex">
+                            <label>Height: </label>
+                            <input placeholder="Height Min" type="text" value={input.height_min} name="height_min" onChange={e => handleChange(e)}/>
+                            {error.height_min && (
+                                <p className="error">{error.height_min}</p>
+                                )}-
+                            <input placeholder="Height Max" type="text" value={input.height_max} name="height_max" onChange={e => handleChange(e)}/>
+                            {error.height_max && (
+                                <p className="error">{error.height_max}</p>
                             )}
-                            <option value="" hidden>Select Temperaments</option>
-                            {allTemperaments.map(temp => (
-                                <option key={temp.id} value={temp.name}>{temp.name}</option>
-                            ))}
-                        </select>
+                        </div>
+                    </div>
+                    <div className="Section">
+                        <div className="form_display-flex">
+                            <label>Weight: </label>
+                            <input placeholder="Weight Min" type="text" value={input.weight_min} name="weight_min" onChange={e => handleChange(e)}/>
+                            {error.weight_min && (
+                                <p className="error">{error.weight_min}</p>
+                                )}-
+                            <input placeholder="Weight Max" type="text" value={input.weight_max} name="weight_max" onChange={e => handleChange(e)}/>
+                            {error.weight_max && (
+                                <p className="error">{error.weight_max}</p>
+                            )}
+                        </div>
+                    </div>
+                    <div className="Section">
+                        <div className="form_display-flex">
+                            <label>Life Span: </label>
+                            <input placeholder="Life Span" type="text" value={input.life_span} name="life_span" onChange={e => handleChange(e)}/>
+                            {error.life_span && (
+                                <p className="error">{error.life_span}</p>
+                            )}
+                        </div>
+                    </div>
+                    <div className="Section">
+                        <div className="form_display-flex">
+                            <label>Temperaments: </label>
+                            <select className="styled_select" onChange={e => handleTemperamentsSelect(e)}>
+                                {error.temperaments && (
+                                    <p className="error">{error.temperaments}</p>
+                                    )}
+                                <option value="" hidden>Select Temperaments</option>
+                                {allTemperaments.map(temp => (
+                                    <option key={temp.id} value={temp.name}>{temp.name}</option>
+                                    ))}
+                            </select>
+                        </div>
                     </div>
                     <div>
-                        <button type="submit">Create Dog</button>
+                        <button className="button" type="submit">Create Dog</button>
                     </div>
+                    {input.temperaments.map(el => (
+                        <div className="seletedItems">
+                            <ul>
+                                <li>
+                                    <p>{el}</p>
+                                    <button onClick={e => handleDeleteTemperaments(e)}>X</button>
+                                </li>
+                            </ul>
+                        </div>
+                    ))}
                 </form>
-                {input.temperaments.map(el => (
-                    <div>
-                        <ul>
-                            <li>
-                                <p>{el}</p>
-                                <button onClick={e => handleDeleteTemperaments(e)}>X</button>
-                            </li>
-                        </ul>
-                    </div>
-                ))}
             </div>
         </div>
     )

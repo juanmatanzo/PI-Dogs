@@ -12,12 +12,34 @@
 }
 
 .card_container{
-    border: black 2px solid;
+    border: black 4px double;
     border-radius: 10px;
     padding: 5px;
     margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .card_detail {
     text-align: center;
+    color: black;
+}
+
+.card_name {
+    border: 2px solid black;
+    border-radius: 10px;
+    padding: 5px 0;
+}
+
+.card_weight{
+    padding: 5px 0;
+    margin: 0 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+}
+
+.card_temperaments{
+    border: 2px solid black;
+    border-radius: 10px;
 }

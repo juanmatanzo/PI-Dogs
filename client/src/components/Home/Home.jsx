@@ -68,37 +68,47 @@ export default function Home(){
 
     return (
         <div className="fondo">
-            <div>
+            <div className="home_buttons">
                 <Link  to='dog'>
                     <button className="create_button">Create Dog</button>
                 </Link>
                 <button className="reload_dogs" onClick={e => {handleClick(e)}}>Reload Dogs</button>
             </div>
             <div>
-                <select onChange={e => handleAlphabeticOrder(e)}>
-                    <option value="" hidden>Alphabetic Order</option>
-                    <option value="AtoZ">A to Z</option>
-                    <option value="ZtoA">Z to A</option>
-                </select>
-                <select onChange={e => handleWeightOrder(e)}>
-                    <option value="" hidden>Weight Order</option>
-                    <option value="Light">Light</option>
-                    <option value="Heavy">Heavy</option>
-                </select>
-                <select onChange={e => handleTemperamentFilter(e)}>
-                    <option value="" hidden>Temperaments</option>
-                    <option value="All">All Temperaments</option>
-                    {allTemperaments.map(temperament => (
-                        <option value={temperament.name} key={temperament.name}>{temperament.name}</option>
-                    ))}
-                </select>
-                <select onChange={e => handleCreatedFilter(e)}>
-                    <option value="" hidden>Dogs</option>
-                    <option value="All">All Dogs</option>
-                    <option value="Api">Existent</option>
-                    <option value="Created">Created</option>
-                </select>
-                <Paged dogsPerPage={dogsPerPage} allDogs={(allDogs.length)} paged={paged}/>
+                <div className="home_all_select">
+                    <div className="home_select">
+                        <select className="home_select_box" onChange={e => handleAlphabeticOrder(e)}>
+                            <option value="" hidden>Alphabetic Order</option>
+                            <option value="AtoZ">A to Z</option>
+                            <option value="ZtoA">Z to A</option>
+                        </select>
+                    </div>
+                    <div className="home_select">
+                        <select className="home_select_box" onChange={e => handleWeightOrder(e)}>
+                            <option value="" hidden>Weight Order</option>
+                            <option value="Light">Light</option>
+                            <option value="Heavy">Heavy</option>
+                        </select>
+                    </div>
+                    <div className="home_select">
+                        <select className="home_select_box" onChange={e => handleTemperamentFilter(e)}>
+                            <option value="" hidden>Temperaments</option>
+                            <option value="All">All Temperaments</option>
+                            {allTemperaments.map(temperament => (
+                                <option value={temperament.name} key={temperament.name}>{temperament.name}</option>
+                                ))}
+                        </select>
+                    </div>
+                    <div className="home_select">
+                        <select className="home_select_box" onChange={e => handleCreatedFilter(e)}>
+                            <option value="" hidden>Dogs</option>
+                            <option value="All">All Dogs</option>
+                            <option value="Api">Existent</option>
+                            <option value="Created">Created</option>
+                        </select>
+                    </div>
+                </div>
+                <Paged setCurrentPage={setCurrentPage} currentPage={currentPage} dogsPerPage={dogsPerPage} allDogs={(allDogs.length)} paged={paged}/>
                 <SearchBar/>
             </div>
             <div>
