@@ -2,7 +2,6 @@ const Router = require('express')
 const axios = require('axios');
 const {Dog, Temperament} = require('../db')
 const {YOUR_API_KEY} = process.env;
-const {v4: newUuid} = require('uuid')
 
 
 const router = Router()
