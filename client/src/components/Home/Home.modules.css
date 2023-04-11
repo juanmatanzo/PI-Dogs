@@ -8,6 +8,7 @@ html, body {
     padding-top: 0;
     padding-bottom: auto;
     margin-bottom: 100%;
+    min-height: 713px;
 }
 
 .home_buttons{

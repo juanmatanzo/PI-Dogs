@@ -55,9 +55,11 @@ export default function Home(){
 
     function handleWeightOrder(e){
         e.preventDefault(e)
-        dispatch(weightOrder(e.target.value))
-        setCurrentPage(1)
-        setOrder(e.target.value)
+        if(e.target.value === "Light" || e.target.value === "Heavy") {
+            dispatch(weightOrder(e.target.value))
+            setCurrentPage(1)
+            setOrder(e.target.value)
+        }
     }
 
     function handleClick(e) {

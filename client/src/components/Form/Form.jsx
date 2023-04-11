@@ -67,16 +67,9 @@ export default function Form () {
         temperaments: [],
     });
 
-    const [error, setError] = useState({
-        name: "",
-        height_min: "",
-        height_max: "",
-        weight_min: "",
-        weight_max: "",
-        life_span: "",
-        image: "",
-        temperaments: "",
-    });
+    const [error, setError] = useState({});
+
+    const [selectNameState, setSelectNameState] = useState([])
 
     useEffect(() => {
         dispatch(getTemperaments());
@@ -91,7 +84,6 @@ export default function Form () {
             ...input,
             [e.target.name]: e.target.value
         }))
-        console.log(input)
     }
 
     // function handleChange(e) {
@@ -137,11 +129,20 @@ export default function Form () {
     // }
 
     function handleTemperamentsSelect(e){
+        if(input.temperaments.includes(e.target.value)) return
         setInput({
             ...input,
             temperaments: [...input.temperaments, e.target.value]
         })
+
+        const selectName = e.target.value;
+        if(selectName === 'default') return;
+        setInput({
+            ...input, 
+            temperaments:[...input.temperaments, selectName]})
+        setSelectNameState([...selectNameState, allTemperaments.find(e => e.id === parseInt(selectName))])
     };
+
 
     function handleDeleteTemperaments(e){
         e.preventDefault()
@@ -153,31 +154,27 @@ export default function Form () {
 
     function handleSubmit(e){
         e.preventDefault();
-        setError(
-            validate({
-                ...input,
-                [e.target.name]: e.target.value
-            })
-        );
-        if(!Object.keys(error).length && input.name && input.image && input.height_min && input.height_max && input.weight_min && input.weight_max && input.life_span && input.temperaments){
-            input.height_max += ' cm';
-            input.weight_max += ' kg';
-            input.life_span += ' years';
-            dispatch(postDog(input))
-            alert("Dogs created successfully!")
-            setInput({
-                name: "",
-                image: "",
-                height_min: "",
-                height_max: "",
-                weight_min: "",
-                weight_max: "",
-                life_span: "",
-                temepraments: []
-            });
-        } else {
-            alert("Error: Dog not created")
-            return;
+        if(!error.name && !error.height_min && !error.height_max &&!error.weight_min && !error.weight_max){
+            try {
+                input.height_max += ' cm';
+                input.weight_max += ' kg';
+                input.life_span += ' years';
+                dispatch(postDog(input))
+                setInput({
+                    name: "",
+                    image: "",
+                    height_min: "",
+                    height_max: "",
+                    weight_min: "",
+                    weight_max: "",
+                    life_span: "",
+                    temepraments: []
+                });
+                alert("Dogs created successfully!")
+                setSelectNameState([])
+            } catch(e) {
+                alert("Error: Dog not created")
+            }
         }
         history.push("/home")
     }
@@ -187,25 +184,29 @@ export default function Form () {
             <Link to='/home'>
                 <button className="buttonHome">Home</button>
             </Link>
-            <div>
+            <div className="form_title">
                 <h1>Lets create a new dog breed!</h1>
             </div>
             <img src="" alt=""/>
             <div className="formContainer">
                 <form name="form" id="form_id" onSubmit={handleSubmit}>
                     <div className="Section">
-                        <label>Dog Name: </label>
-                        <input placeholder="Dog Name" type="text" value={input.name} name="name" onChange={e => handleChange(e)}/>
-                        {error.name && (
-                            <p className="error">{error.name}</p>
-                        )}
+                        <div className="form_display-flex">
+                            <label>Dog Name: </label>
+                            <input className="form_input_name" placeholder="Dog Name" type="text" value={input.name} name="name" onChange={e => handleChange(e)}/>
+                            {error.name && (
+                                <p className="error">{error.name}</p>
+                            )}
+                        </div>
                     </div>
                     <div className="Section">
+                        <div className="form_display-flex">
                         <label>Image: </label>
-                        <input placeholder="Image" type="src" value={input.image} name="image" alt="not found" onChange={e => handleChange(e)}/>
-                        {error.image && (
-                            <p className="error">{error.image}</p>
-                        )}
+                        <input className="form_input_img" placeholder="Image" type="src" value={input.image} name="image" alt="not found" onChange={e => handleChange(e)}/>
+                            {error.image && (
+                                <p className="error">{error.image}</p>
+                            )}
+                        </div>
                     </div>
                     <div className="Section">
                         <div className="form_display-flex">
@@ -236,7 +237,7 @@ export default function Form () {
                     <div className="Section">
                         <div className="form_display-flex">
                             <label>Life Span: </label>
-                            <input placeholder="Life Span" type="text" value={input.life_span} name="life_span" onChange={e => handleChange(e)}/>
+                            <input className="form_input_life-span" placeholder="Life Span" type="text" value={input.life_span} name="life_span" onChange={e => handleChange(e)}/>
                             {error.life_span && (
                                 <p className="error">{error.life_span}</p>
                             )}
@@ -249,26 +250,29 @@ export default function Form () {
                                 {error.temperaments && (
                                     <p className="error">{error.temperaments}</p>
                                     )}
-                                <option value="" hidden>Select Temperaments</option>
+                                <option className="form_select" value="" hidden>Select Temperaments</option>
                                 {allTemperaments.map(temp => (
                                     <option key={temp.id} value={temp.name}>{temp.name}</option>
                                     ))}
                             </select>
                         </div>
+                        <div className="div_form_final_temps">
+                            <ul className="ul_temp">
+                                {input.temperaments.map((e, i) => {
+                                    return(
+                                        <li className='li_temp' key={i}>
+                                        {e}
+                                        <button className='delete_temp' type='button' value={e.id} onClick={handleDeleteTemperaments}>x</button>
+                                    </li>
+                                    )
+                                })}
+                            </ul>
+                        </div>
                     </div>
                     <div>
                         <button className="button" type="submit">Create Dog</button>
                     </div>
-                    {input.temperaments.map(el => (
-                        <div className="seletedItems">
-                            <ul>
-                                <li>
-                                    <p>{el}</p>
-                                    <button onClick={e => handleDeleteTemperaments(e)}>X</button>
-                                </li>
-                            </ul>
-                        </div>
-                    ))}
+
                 </form>
             </div>
         </div>

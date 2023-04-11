@@ -25,7 +25,7 @@ export default function Pagination({dogsPerPage, allDogs, paged, setCurrentPage,
                 <ul className='paged'>
                     { pageNumbers && pageNumbers.map((number, i) => (
                     <li  key={i} onClick={() => paged(number)}>
-                        <a href='#'>{number}</a>
+                        <span className={currentPage === number ? "paged active" : "paged"}>{number}</span>
                     </li>
                     ))}
                 </ul >

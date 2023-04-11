@@ -11,7 +11,6 @@ export default function SearchBar(){
     function handleInputChange(e){ //el value del input va a tomar el value del useState
     e.preventDefault()
     setName(e.target.value)
-    console.log(name)
     }
 
     function handleSubmit(e){

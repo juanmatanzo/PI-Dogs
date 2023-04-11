@@ -20,7 +20,6 @@ const getApiInfo = async() => {
             height_max: parseInt(e.height.metric.slice(4).trim()),
             life_span: e.life_span,
             temperament: e.temperament,
-            created: "API"
         }
     })
     return apiInfo
@@ -91,25 +90,21 @@ router.post('/', async(req, res) => {
         weight_min, 
         weight_max, 
         life_span, 
-        createdInDb,
         temperament
     } = req.body
-    let dogCreated = await Dog.create({
-        id: newUuid(),
-        name, 
-        image, 
-        height_min, 
-        height_max, 
-        weight_min, 
-        weight_max, 
-        life_span, 
-        createdInDb,
-    })
-    let temperamentDb = await Temperament.findAll({
-        where: {name: temperament}
-    });
-    dogCreated.addTemperament(temperamentDb)
-    res.send("Dog created succesfully")
+    if(!name || !height_min || !height_max || !weight_min || !weight_max || !life_span || !image){
+        return res.status(400).send({msg: "Some data is missing"})
+    }
+    try {
+        let dogCreated = await Dog.create(req.body)
+        let temperamentDb = await Temperament.findAll({
+            where: {name: temperament}
+        });
+        dogCreated.addTemperament(temperamentDb)
+        res.send("Dog created succesfully")
+    } catch(e) {
+        console.log(e)
+    }
 })
     
     

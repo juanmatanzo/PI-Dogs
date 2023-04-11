@@ -13,11 +13,16 @@
     margin: 0;
 }
 
+.paged.active{
+    background-color: white;
+    color: black;
+}
+
 .paged li {
     display: inline;
 }
 
-.paged li a {
+.paged li span {
     color: black;
     float: left;
     background-color: gainsboro;
